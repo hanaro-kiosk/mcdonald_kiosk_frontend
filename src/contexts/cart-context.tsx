@@ -86,7 +86,10 @@ const reducer = (cart: Cart[], { type, payload }: Action): Cart[] => {
                     ];
                 } else {
                     const updatedCart = [...cart];
-                    updatedCart[foundItem].totalCnt += 1;
+                    updatedCart[foundItem] = {
+                        ...updatedCart[foundItem],
+                        totalCnt: updatedCart[foundItem].totalCnt + 1,
+                    };
                     newer = updatedCart;
                 }
             }
@@ -103,7 +106,10 @@ const reducer = (cart: Cart[], { type, payload }: Action): Cart[] => {
                     (item: Cart) => item.id === payload
                 );
                 const updatedCart = [...cart];
-                updatedCart[itemIndex].totalCnt += 1;
+                updatedCart[itemIndex] = {
+                    ...updatedCart[itemIndex],
+                    totalCnt: updatedCart[itemIndex].totalCnt + 1,
+                };
                 newer = updatedCart;
             }
             break;
@@ -113,9 +119,15 @@ const reducer = (cart: Cart[], { type, payload }: Action): Cart[] => {
                     (item: Cart) => item.id === payload
                 );
                 const updatedCart = [...cart];
-                updatedCart[itemIndex].totalCnt -= 1;
+                updatedCart[itemIndex] = {
+                    ...updatedCart[itemIndex],
+                    totalCnt: updatedCart[itemIndex].totalCnt - 1,
+                };
                 if (updatedCart[itemIndex].totalCnt < 0)
-                    updatedCart[itemIndex].totalCnt = 0;
+                    updatedCart[itemIndex] = {
+                        ...updatedCart[itemIndex],
+                        totalCnt: 0,
+                    };
                 newer = updatedCart;
             }
             break;
