@@ -1,8 +1,13 @@
 import './App.css';
-import Home from './pages/Home';
+import { CartProvider } from './contexts/cart-context';
+import MenuList from './pages/MenuList/index';
 
 function App() {
-  return <Home />;
+    return (
+        <CartProvider>
+            <MenuList />
+        </CartProvider>
+    );
 }
 
 export default App;
