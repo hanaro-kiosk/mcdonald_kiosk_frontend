@@ -66,10 +66,8 @@ export const OrderComfirmation = () => {
     );
 
     return (
-        <div>
-            <div>
-                <h1 className='text-center text-white '>주문을 확인하세요.</h1>
-            </div>
+        <div className='h-full'>
+            <h1 className='p-10 text-center text-white'>주문을 확인하세요.</h1>
             {loading ? (
                 <p>로딩중....</p>
             ) : (
