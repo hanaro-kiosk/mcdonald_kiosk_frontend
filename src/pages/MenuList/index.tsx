@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import CategoryItem from './components/CategoryItem';
-import Button from './components/Button';
+import Button from '../../components/Button';
 import MenuItem from './components/MenuItem';
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 import CartItem from './components/CartItem';
 import { useCart } from '../../contexts/cart-context';
+import { Link } from 'react-router-dom';
 
 type Item = {
     imgSrc: string;
@@ -214,20 +215,24 @@ function MenuList() {
                 </div>
             </div>
             <div className='w-full mt-1 h-10 px-1 flex justify-center items-center'>
-                <Button
-                    bgColor='bg-red-600'
-                    text='주문 취소'
-                    textColor='white'
-                    textSize='base'
-                    classes='w-1/2 h-full font-semibold mr-1 hover:bg-red-700'
-                />
-                <Button
-                    bgColor='bg-green-700'
-                    text='주문 완료'
-                    textColor='white'
-                    textSize='base'
-                    classes='w-1/2 h-full font-semibold ml-1 hover:bg-green-800'
-                />
+                <Link to='/' className='w-1/2 h-full'>
+                    <Button
+                        bgColor='bg-red-600'
+                        text='주문 취소'
+                        textColor='white'
+                        textSize='base'
+                        classes='w-full h-full font-semibold mr-1 hover:bg-red-700'
+                    />
+                </Link>
+                <Link to='/order' className='w-1/2 h-full'>
+                    <Button
+                        bgColor='bg-green-700'
+                        text='주문 완료'
+                        textColor='white'
+                        textSize='base'
+                        classes='w-full h-full font-semibold ml-1 hover:bg-green-800'
+                    />
+                </Link>
             </div>
         </div>
     );

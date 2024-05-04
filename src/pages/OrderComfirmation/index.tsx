@@ -1,109 +1,73 @@
-import { useEffect, useState } from 'react';
 import OrderMenuItem from './component/OrderMenuItem';
-import { Navigate, useNavigate } from 'react-router-dom';
-
-interface MenuItem {
-    id: number;
-    name: string;
-    price: number;
-    quantity: number;
-}
+import Button from '../../components/Button';
+import { useCart } from '../../contexts/cart-context';
+import { useNavigate } from 'react-router-dom';
 
 export const OrderComfirmation = () => {
-    const [orders, setOrders] = useState<MenuItem[]>();
-    const [loading, setLoading] = useState<boolean>(false);
+    const { cart, totalCount, totalPrice } = useCart();
 
-    //const navigate = useNavigate();
-
-    useEffect(() => {
-        setOrders([
-            {
-                id: 1,
-                name: '치즈버거',
-                price: 5900,
-                quantity: 10,
-            },
-            {
-                id: 2,
-                name: '피자',
-                price: 8000,
-                quantity: 8,
-            },
-            {
-                id: 3,
-                name: '스테이크',
-                price: 15000,
-                quantity: 5,
-            },
-        ]);
-    }, []);
-
-    const handleQuantityChange = (id: number, increment: number) => {
-        setOrders(
-            orders?.map((order) =>
-                order.id === id
-                    ? { ...order, quantity: order.quantity + increment }
-                    : order
-            )
-        );
-    };
-
-    const handleRemoveItem = (id: number) => {
-        setOrders(orders?.filter((order) => order.id !== id));
-    };
+    const navigate = useNavigate();
 
     const handlePayment = () => {
         //navigate('');
     };
 
-    const totalPrice = orders?.reduce(
-        (total, order) => total + order.price * order.quantity,
-        0
-    );
-    const totalCount = orders?.reduce(
-        (total, order) => total + order.quantity,
-        0
-    );
-
     return (
         <div className='h-full'>
-            <h1 className='p-10 text-center text-white'>주문을 확인하세요.</h1>
-            {loading ? (
-                <p>로딩중....</p>
-            ) : (
-                <div className='px-4 py-8 mx-8 mt-40 bg-white rounded-md'>
-                    {orders?.map((order) => (
+            <h1 className='m-20 text-2xl text-center text-white'>
+                주문을 확인하세요.
+            </h1>
+            <div className='px-4 py-5 mx-8 mt-32 bg-white rounded-md'>
+                <div className='flex flex-col items-center mb-3'>
+                    {cart?.map((order) => (
                         <OrderMenuItem
                             key={order.id}
-                            item={order}
-                            onQuantityChange={handleQuantityChange}
-                            onRemove={handleRemoveItem}
+                            id={order.id}
+                            name={order.menuName}
+                            price={order.menuPrice}
+                            quantity={order.totalCnt}
+                            // onQuantityChange={handleQuantityChange}
+                            // onRemove={handleRemoveItem}
                         />
                     ))}
-
-                    <div className='flex justify-end'>
-                        <p>총 수량: {totalCount}</p>
-                        <p className='mx-4'>총 가격: {totalPrice}</p>
-                    </div>
-                    <div className='flex justify-between'>
-                        <button className='px-2 py-1 border border-gray-500 rounded-md'>
-                            뒤로가기
-                        </button>
-                        <button
-                            className='px-2 py-1 border border-gray-500 rounded-md'
-                            // onClick={() => navigate('/asdf')}
-                        >
-                            추가메뉴
-                        </button>
-                        <button
-                            className='px-2 py-1 border border-gray-500 rounded-md'
-                            onClick={handlePayment}
-                        >
-                            결제하기
-                        </button>
-                    </div>
+                    {cart.length <= 0 && (
+                        <p className='text-xl font-semibold mt-3'>
+                            주문하신 내역이 없습니다.
+                        </p>
+                    )}
                 </div>
-            )}
+
+                <div className='flex justify-end mb-5'>
+                    <p>총 수량: {totalCount}</p>
+                    <p className='mx-4'>총 가격: {totalPrice}</p>
+                </div>
+                <div className='flex justify-between items-center'>
+                    <Button
+                        bgColor='bg-gray-400'
+                        text='뒤로가기'
+                        textColor='white'
+                        textSize='base'
+                        classes='w-36 rounded-lg font-medium hover:bg-gray-500'
+                        onClick={() => navigate('/menu')}
+                    />
+                    <Button
+                        bgColor='bg-red-600'
+                        text='추가메뉴'
+                        textColor='white'
+                        textSize='base'
+                        classes='w-36 rounded-lg font-medium hover:bg-red-700'
+                        // onClick={() => navigate('/asdf')}
+                    />
+                    <Button
+                        bgColor='bg-green-700'
+                        text='결제하기'
+                        textColor='white'
+                        textSize='base'
+                        classes='w-36 rounded-lg font-medium hover:bg-green-800'
+                        onClick={handlePayment}
+                    />
+                </div>
+            </div>
         </div>
     );
 };

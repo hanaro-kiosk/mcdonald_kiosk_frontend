@@ -1,4 +1,5 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
+import { useCart } from '../../../contexts/cart-context';
 
 interface OrderItem {
     id: number;
@@ -7,42 +8,32 @@ interface OrderItem {
     quantity: number;
 }
 
-interface OrderItemProps {
-    item: OrderItem;
-    onQuantityChange: (id: number, quantityChange: number) => void;
-    onRemove: (id: number) => void;
-}
-
-const OrderMenuItem: FC<OrderItemProps> = ({
-    item,
-    onQuantityChange,
-    onRemove,
-}) => {
-    useEffect(() => {}, []);
+const OrderMenuItem: FC<OrderItem> = (item: OrderItem) => {
+    const { removeItem, onQuantityPlus, onQuantityMinus } = useCart();
 
     return (
-        <div className='' key={item.id}>
-            <div className='flex items-center justify-between px-4 py-1 my-2 border rounded text-black-400 '>
+        <div className='w-full' key={item.id}>
+            <div className='flex items-center justify-center px-4 py-1.5 my-2 border rounded text-black-400 '>
                 <div className='flex items-center space-x-4'>
                     <span>
                         {item.name} - {item.price}원
                     </span>
                     <button
+                        onClick={() => onQuantityMinus(item.id)}
                         className='px-2 text-center align-middle border border-gray-900 rounded-md select-none'
-                        onClick={() => onQuantityChange(item.id, -1)}
                     >
                         -
                     </button>
                     <span>{item.quantity}개</span>
                     <button
+                        onClick={() => onQuantityPlus(item.id)}
                         className='px-2 text-center align-middle border border-gray-900 rounded-md select-none'
-                        onClick={() => onQuantityChange(item.id, +1)}
                     >
                         +
                     </button>
                     <button
+                        onClick={() => removeItem(item.id)}
                         className='px-2 py-1 text-sm text-white bg-red-500 rounded-md'
-                        onClick={() => onRemove(item.id)}
                     >
                         삭제
                     </button>

@@ -25,6 +25,8 @@ type CartContextProp = {
         menuCalory,
         totalCnt,
     }: Cart) => void;
+    onQuantityPlus: (itemId: number) => void;
+    onQuantityMinus: (itemId: number) => void;
 };
 
 const CartContext = createContext<CartContextProp>({
@@ -34,6 +36,8 @@ const CartContext = createContext<CartContextProp>({
     removeItem: () => {},
     removeAllItem: () => {},
     saveItem: () => {},
+    onQuantityPlus: () => {},
+    onQuantityMinus: () => {},
 });
 
 type Action =
@@ -46,7 +50,9 @@ type Action =
           payload: Cart;
       }
     | { type: 'removeItem'; payload: number }
-    | { type: 'removeAllItem'; payload: null };
+    | { type: 'removeAllItem'; payload: null }
+    | { type: 'onQuantityPlus'; payload: number }
+    | { type: 'onQuantityMinus'; payload: number };
 
 const reducer = (cart: Cart[], { type, payload }: Action): Cart[] => {
     let newer: Cart[];
@@ -90,6 +96,28 @@ const reducer = (cart: Cart[], { type, payload }: Action): Cart[] => {
             break;
         case 'removeAllItem':
             newer = [];
+            break;
+        case 'onQuantityPlus':
+            {
+                const itemIndex = cart.findIndex(
+                    (item: Cart) => item.id === payload
+                );
+                const updatedCart = [...cart];
+                updatedCart[itemIndex].totalCnt += 1;
+                newer = updatedCart;
+            }
+            break;
+        case 'onQuantityMinus':
+            {
+                const itemIndex = cart.findIndex(
+                    (item: Cart) => item.id === payload
+                );
+                const updatedCart = [...cart];
+                updatedCart[itemIndex].totalCnt -= 1;
+                if (updatedCart[itemIndex].totalCnt < 0)
+                    updatedCart[itemIndex].totalCnt = 0;
+                newer = updatedCart;
+            }
             break;
         default:
             return cart;
@@ -154,6 +182,20 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
         []
     );
 
+    const onQuantityPlus = useCallback((itemId: number) => {
+        dispatch({
+            type: 'onQuantityPlus',
+            payload: itemId,
+        });
+    }, []);
+
+    const onQuantityMinus = useCallback((itemId: number) => {
+        dispatch({
+            type: 'onQuantityMinus',
+            payload: itemId,
+        });
+    }, []);
+
     return (
         <CartContext.Provider
             value={{
@@ -163,6 +205,8 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
                 removeItem,
                 removeAllItem,
                 saveItem,
+                onQuantityPlus,
+                onQuantityMinus,
             }}
         >
             {children}
