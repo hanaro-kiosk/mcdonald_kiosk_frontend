@@ -1,11 +1,12 @@
 import './App.css';
-import Home from './pages/home';
+import { CartProvider } from './contexts/cart-context';
+import MenuList from './pages/MenuList/index';
 
 function App() {
     return (
-        <>
-            <Home />
-        </>
+        <CartProvider>
+            <MenuList />
+        </CartProvider>
     );
 }
 
