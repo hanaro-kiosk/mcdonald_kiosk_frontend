@@ -1,6 +1,6 @@
 import { useCart } from '../../../contexts/cart-context';
 
-interface Menu {
+export interface Menu {
     idx: number;
     img: string;
     name: string;

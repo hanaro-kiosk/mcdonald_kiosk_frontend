@@ -2,9 +2,12 @@ import OrderMenuItem from './component/OrderMenuItem';
 import Button from '../../components/Button';
 import { useCart } from '../../contexts/cart-context';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import SideMenuModal from './component/SideMenuModal';
 
 export const OrderComfirmation = () => {
     const { cart, totalCount, totalPrice } = useCart();
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -17,7 +20,7 @@ export const OrderComfirmation = () => {
             <h1 className='m-20 text-2xl text-center text-white'>
                 주문을 확인하세요.
             </h1>
-            <div className='px-4 py-5 mx-8 mt-32 bg-white rounded-md'>
+            <div className='px-4 py-5 mx-8 mt-16 bg-white rounded-md'>
                 <div className='flex flex-col items-center mb-3'>
                     {cart?.map((order) => (
                         <OrderMenuItem
@@ -26,8 +29,6 @@ export const OrderComfirmation = () => {
                             name={order.menuName}
                             price={order.menuPrice}
                             quantity={order.totalCnt}
-                            // onQuantityChange={handleQuantityChange}
-                            // onRemove={handleRemoveItem}
                         />
                     ))}
                     {cart.length <= 0 && (
@@ -56,7 +57,7 @@ export const OrderComfirmation = () => {
                         textColor='white'
                         textSize='base'
                         classes='w-36 rounded-lg font-medium hover:bg-red-700'
-                        // onClick={() => navigate('/asdf')}
+                        onClick={() => setModalOpen(true)}
                     />
                     <Button
                         bgColor='bg-green-700'
@@ -68,6 +69,11 @@ export const OrderComfirmation = () => {
                     />
                 </div>
             </div>
+            {modalOpen && (
+                <div className='w-full h-full fixed top-0 left-0 flex justify-center items-center bg-neutral-600/50'>
+                    <SideMenuModal onClick={() => setModalOpen(false)} />
+                </div>
+            )}
         </div>
     );
 };

@@ -8,14 +8,15 @@ import CartItem from './components/CartItem';
 import { useCart } from '../../contexts/cart-context';
 import { Link } from 'react-router-dom';
 
-type Item = {
+export type Item = {
     imgSrc: string;
     menuCalory: number;
     menuIdx: number;
     menuName: string;
     menuPrice: number;
 };
-type Items = {
+
+export type Items = {
     content: Item[];
     first: boolean;
     last: boolean;
@@ -26,8 +27,6 @@ function MenuList() {
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [itemList, setItemList] = useState<Items>();
     const { cart, totalPrice, totalCount, removeAllItem } = useCart();
-
-    console.log('cart>>', cart);
 
     // prev 페이지
     const clickPrevBtn = () => {
