@@ -14,7 +14,7 @@ type Item = {
     menuName: string;
     menuPrice: number;
 };
-type Items = {
+export type Items = {
     content: Item[];
     first: boolean;
     last: boolean;
