@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export type AdminItem = {
     menuIdx: number;
@@ -12,7 +12,7 @@ export type AdminItem = {
     menuCalory: number;
     menuCode: string;
     menuRecommend: boolean;
-    menuUpdate: Date;
+    menuUpdateDate: Date;
 };
 
 type AdminItems = {
@@ -27,6 +27,7 @@ type AdminItems = {
 
 function AdminMenuList() {
     const { categoryId } = useParams();
+    const navigate = useNavigate();
     const [itemList, setItemList] = useState<AdminItems>();
     const [pageNumber, setPageNumber] = useState<number>(0);
 
@@ -54,10 +55,10 @@ function AdminMenuList() {
             `http://localhost:8080/api/v1/admin/menu?categoryId=${categoryId}&page=${pageNumber}`,
             {
                 method: 'GET',
-                headers: {
-                    'X-AUTH-TOKEN':
-                        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcxNTAxMDQ4NCwiZXhwIjoxNzE1MDk2ODg0fQ.DmuANjiNnFE7faeruU9hZyjnGazrS61gUcFywUZQbmE',
-                },
+                // headers: {
+                //     'X-AUTH-TOKEN':
+                //         // 토큰값,
+                // },
                 mode: 'cors',
             }
         )
@@ -75,6 +76,11 @@ function AdminMenuList() {
                 `http://localhost:8080/api/v1/admin/menu/${itemIdx}`,
                 {
                     method: 'DELETE',
+                    // headers: {
+                    //     'X-AUTH-TOKEN':
+                    //         // 토큰값,
+                    // },
+                    mode: 'cors',
                 }
             )
                 .then((res) => res.json())
@@ -135,7 +141,14 @@ function AdminMenuList() {
                                 <td className='px-2 py-1'>{item.menuPrice}</td>
                                 <td className='px-2 py-1'>{item.menuOption}</td>
                                 <td className='pr-1.5'>
-                                    <button className='w-14 border border-none bg-blue-500 rounded-lg px-3 py-2 text-white text-sm hover:bg-blue-700'>
+                                    <button
+                                        onClick={() =>
+                                            navigate(
+                                                `/admin/menu/${categoryId}/${item.menuIdx}`
+                                            )
+                                        }
+                                        className='w-14 border border-none bg-blue-500 rounded-lg px-3 py-2 text-white text-sm hover:bg-blue-700'
+                                    >
                                         수정
                                     </button>
                                 </td>

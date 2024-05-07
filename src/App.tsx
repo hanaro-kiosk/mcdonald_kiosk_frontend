@@ -4,6 +4,7 @@ import MenuList from './pages/MenuList/index';
 import AdminOutlet from './pages/AdminOutlet';
 import AdminMenu from './pages/AdminMenu/index';
 import AdminMenuList from './pages/AdminMenu/AdminMenuList/index';
+import AdminUpdateMenu from './pages/AdminMenu/AdmiUpdateMenu/index';
 
 function App() {
     return (
@@ -12,6 +13,10 @@ function App() {
             <Route path='/admin' element={<AdminOutlet />}>
                 <Route path=':menu' element={<AdminMenu />} />
                 <Route path=':menu/:categoryId' element={<AdminMenuList />} />
+                <Route
+                    path=':menu/:categoryId/:menuId'
+                    element={<AdminUpdateMenu />}
+                />
             </Route>
         </Routes>
     );

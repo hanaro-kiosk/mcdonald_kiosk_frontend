@@ -16,10 +16,11 @@ function AdminMenu() {
             `http://localhost:8080/api/v1/admin/categories`,
             {
                 method: 'GET',
-                headers: {
-                    'X-AUTH-TOKEN':
-                        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcxNTAxMDQ4NCwiZXhwIjoxNzE1MDk2ODg0fQ.DmuANjiNnFE7faeruU9hZyjnGazrS61gUcFywUZQbmE',
-                },
+                // headers: {
+                //     'X-AUTH-TOKEN':
+                //         // 토큰값,
+                // },
+                mode: 'cors',
             }
         )
             .then((res) => res.json())
