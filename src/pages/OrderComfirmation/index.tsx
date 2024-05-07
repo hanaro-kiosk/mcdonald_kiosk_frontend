@@ -20,8 +20,8 @@ export const OrderComfirmation = () => {
             <h1 className='m-20 text-2xl text-center text-white'>
                 주문을 확인하세요.
             </h1>
-            <div className='px-4 py-5 mx-8 mt-16 bg-white rounded-md'>
-                <div className='flex flex-col items-center mb-3'>
+            <div className='h-4/6 px-4 py-4 mx-8 mt-16 bg-white rounded-md'>
+                <div className='flex flex-col items-center mb-3 h-4/5 overflow-scroll'>
                     {cart?.map((order) => (
                         <OrderMenuItem
                             key={order.id}

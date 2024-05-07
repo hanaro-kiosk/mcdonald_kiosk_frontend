@@ -190,9 +190,11 @@ function MenuList() {
                     </div>
                 </div>
                 <div>
-                    <p className='text-right mr-2 text-sm font-medium cursor-pointer'>
-                        {'>>'} 주문 상세보기
-                    </p>
+                    <Link to='/order'>
+                        <p className='text-right mr-2 text-sm font-medium cursor-pointer'>
+                            {'>>'} 주문 상세보기
+                        </p>
+                    </Link>
                     <div className='w-full h-16 flex justify-center overflow-auto'>
                         <div className='w-full h-full justify-start grid auto-cols-auto grid-flow-col gap-x-2'>
                             {cart?.map((item) => (
