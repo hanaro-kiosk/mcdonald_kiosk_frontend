@@ -38,6 +38,9 @@ function AdminUpdateMenu() {
         menuCalory: 0,
         menuRecommend: false,
     });
+    const [file, setFile] = useState<File | null>(null);
+    const [imageFile, setImageFile] = useState<string>('');
+    const [isImageChange, setIsImageChange] = useState<boolean>(false);
 
     // 날짜 포맷팅
     const formatDate = (date: Date): string => {
@@ -49,6 +52,16 @@ function AdminUpdateMenu() {
         const minutes = String(date.getMinutes()).padStart(2, '0');
 
         return `${year}-${month}-${day} ${hours}:${minutes}`;
+    };
+
+    const handleFilesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const fileList = e.target.files;
+        if (fileList && fileList[0]) {
+            setFile(fileList[0]);
+            const url = URL.createObjectURL(fileList[0]);
+            setImageFile(url);
+            setIsImageChange(true);
+        }
     };
 
     // 해당 카테고리 메뉴 리스트 api
@@ -74,7 +87,34 @@ function AdminUpdateMenu() {
                     menuRecommend: response.data.menuRecommend,
                 };
             });
+            setImageFile('/assets/' + response.data.imgSrc);
         }
+    };
+
+    // 이미지 정보 수정
+    const uploadFiles = async () => {
+        const formData = new FormData();
+        if (file) {
+            formData.append('uploadfile', file, file.name);
+            const response = await fetch(
+                `http://localhost:8080/api/v1/admin/image/${item?.imgIdx}`,
+                {
+                    method: 'PATCH',
+                    // headers: {
+                    //     'X-AUTH-TOKEN':
+                    //         // 토큰값,
+                    // },
+                    mode: 'cors',
+                    body: formData,
+                }
+            )
+                .then((res) => res.json())
+                .catch((err) => console.error(err));
+            if (response.success) return true;
+            else return false;
+        }
+
+        return false;
     };
 
     // 상품 정보 수정
@@ -105,6 +145,17 @@ function AdminUpdateMenu() {
         if (response.success) {
             alert('상품 정보가 수정되었습니다.');
             navigate(`/admin/menu/${updatedData.menuCategory}`);
+        }
+    };
+
+    // 수정 api
+    const updateMenuItem = async () => {
+        if (isImageChange) {
+            if (await uploadFiles()) {
+                clickedUpdateMenu();
+            }
+        } else {
+            clickedUpdateMenu();
         }
     };
 
@@ -144,15 +195,24 @@ function AdminUpdateMenu() {
                         <th>
                             <div className='w-40 m-auto'>
                                 <img
-                                    src={`/assets/${item?.imgSrc}`}
+                                    src={imageFile}
                                     alt={item && item?.menuName}
                                 />
                             </div>
                         </th>
                         <th>
-                            <button className='w-16 bg-gray-600 border border-none rounded-md py-1 text-slate-200 font-medium hover:bg-gray-500'>
+                            <label
+                                htmlFor='input-file'
+                                className='px-5 bg-gray-600 border border-none rounded-md py-2 text-slate-200 font-medium hover:bg-gray-500 cursor-pointer'
+                            >
                                 변경
-                            </button>
+                            </label>
+                            <input
+                                id='input-file'
+                                type='file'
+                                onChange={handleFilesChange}
+                                className='hidden'
+                            />
                         </th>
                     </tr>
                     <tr className='border border-slate-700'>
@@ -223,14 +283,12 @@ function AdminUpdateMenu() {
                                     })
                                 }
                                 className='bg-transparent text-base font-medium w-36 focus:outline-none'
+                                value={item?.menuOption}
                             >
                                 {categories.map((category) => (
                                     <option
                                         key={category.idx}
                                         value={category.idx}
-                                        selected={
-                                            item?.menuOption === category.name
-                                        }
                                         className='text-center'
                                     >
                                         {category.name}
@@ -276,7 +334,7 @@ function AdminUpdateMenu() {
                     textColor='white'
                     textSize='base'
                     classes='w-24 h-full font-semibold ml-1 hover:bg-blue-800'
-                    onClick={() => clickedUpdateMenu()}
+                    onClick={updateMenuItem}
                 />
                 <Button
                     bgColor='bg-red-600'
