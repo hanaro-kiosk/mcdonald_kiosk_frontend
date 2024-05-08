@@ -15,7 +15,7 @@ export type Item = {
     menuName: string;
     menuPrice: number;
 };
-
+  
 export type Items = {
     content: Item[];
     first: boolean;

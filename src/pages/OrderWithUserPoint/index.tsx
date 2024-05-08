@@ -1,14 +1,8 @@
 import { FC } from 'react';
+import { useOrderContext } from '../../contexts/order-context';
 
-interface OrderWithUserPointProps {
-    orderNumber: number;
-    userPoint: number;
-}
-
-export const OrderWithUserPoint: FC<OrderWithUserPointProps> = ({
-    orderNumber,
-    userPoint,
-}) => {
+export const OrderWithUserPoint: FC = () => {
+    const context = useOrderContext();
     return (
         <div className='h-full bg-gray-100 '>
             <div className='flex justify-center pt-20'>
@@ -18,14 +12,22 @@ export const OrderWithUserPoint: FC<OrderWithUserPointProps> = ({
                 />
             </div>
             <p className='text-center'>
-                고객의 주문번호는{' '}
-                <span className='font-bold'>{orderNumber}</span> 입니다.
+                고객의 주문번호는
+                <span className='font-bold'>
+                    {context?.data?.orderNumber}
+                </span>{' '}
+                입니다.
             </p>
             <p className='font-bold text-center'>감사합니다.</p>
-            <p className='mt-8 text-center'>
-                회원님의 적립금은 <span className='font-bold'>{userPoint}</span>
-                원 입니다.
-            </p>
+            {context?.data?.userPoint !== -1 && (
+                <p className='mt-8 text-center'>
+                    회원님의 적립금은{' '}
+                    <span className='font-bold'>
+                        {context?.data?.userPoint}
+                    </span>
+                    원 입니다.
+                </p>
+            )}
         </div>
     );
 };
