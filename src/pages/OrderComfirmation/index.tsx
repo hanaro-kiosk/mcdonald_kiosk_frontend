@@ -2,7 +2,7 @@ import OrderMenuItem from './component/OrderMenuItem';
 import Button from '../../components/Button';
 import { useCart } from '../../contexts/cart-context';
 import { useNavigate } from 'react-router-dom';
-import { useState, useContext, createContext } from 'react';
+import { useState } from 'react';
 import SideMenuModal from './component/SideMenuModal';
 import { useOrderContext } from '../../contexts/order-context';
 
