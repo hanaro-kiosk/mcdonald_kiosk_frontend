@@ -32,7 +32,7 @@ function AdminOutlet() {
                         color: isActive ? 'black' : 'rgb(226 232 240)',
                     })}
                 >
-                    <button className=' w-full text-lg font-semibold active:bg-red-300'>
+                    <button className=' w-full text-lg font-semibold'>
                         상품 관리
                     </button>
                 </NavLink>

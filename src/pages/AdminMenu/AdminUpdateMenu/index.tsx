@@ -42,6 +42,8 @@ function AdminUpdateMenu() {
     const [imageFile, setImageFile] = useState<string>('');
     const [isImageChange, setIsImageChange] = useState<boolean>(false);
 
+    const token = localStorage.getItem('token');
+
     // 날짜 포맷팅
     const formatDate = (date: Date): string => {
         if (!date) return '';
@@ -64,87 +66,100 @@ function AdminUpdateMenu() {
         }
     };
 
-    // 해당 카테고리 메뉴 리스트 api
+    // 해당 메뉴 api
     const getMenuData = async () => {
-        const response = await fetch(
-            `http://localhost:8080/api/v1/admin/menu/${menuId}`
-        )
-            .then((res) => res.json())
-            .catch((err) => console.error(err));
-        if (response.success && !response.data.empty) {
-            setItem(response.data);
-            setUpdatedData((data) => {
-                return {
-                    ...data,
-                    menuName: response.data.menuName,
-                    menuPrice: response.data.menuPrice,
-                    menuCategory:
-                        categories.findIndex(
-                            (category) =>
-                                category.name === response.data.menuOption
-                        ) + 1,
-                    menuCalory: response.data.menuCalory,
-                    menuRecommend: response.data.menuRecommend,
-                };
-            });
-            setImageFile('/assets/' + response.data.imgSrc);
+        if (token) {
+            const response = await fetch(
+                `http://localhost:8080/api/v1/admin/menu/${menuId}`,
+                {
+                    headers: {
+                        'X-AUTH-TOKEN': token,
+                    },
+                }
+            )
+                .then((res) => res.json())
+                .catch((err) => console.error(err));
+            if (response.success && !response.data.empty) {
+                setItem(response.data);
+                setUpdatedData((data) => {
+                    return {
+                        ...data,
+                        menuName: response.data.menuName,
+                        menuPrice: response.data.menuPrice,
+                        menuCategory:
+                            categories.findIndex(
+                                (category) =>
+                                    category.name === response.data.menuOption
+                            ) + 1,
+                        menuCalory: response.data.menuCalory,
+                        menuRecommend: response.data.menuRecommend,
+                    };
+                });
+                setImageFile('/assets/' + response.data.imgSrc);
+            }
+        } else {
+            alert('로그인을 해주세요');
+            location.href = '/login';
         }
     };
 
     // 이미지 정보 수정
     const uploadFiles = async () => {
         const formData = new FormData();
-        if (file) {
-            formData.append('uploadfile', file, file.name);
-            const response = await fetch(
-                `http://localhost:8080/api/v1/admin/image/${item?.imgIdx}`,
-                {
-                    method: 'PATCH',
-                    // headers: {
-                    //     'X-AUTH-TOKEN':
-                    //         // 토큰값,
-                    // },
-                    mode: 'cors',
-                    body: formData,
-                }
-            )
-                .then((res) => res.json())
-                .catch((err) => console.error(err));
-            if (response.success) return true;
-            else return false;
+        if (token) {
+            if (file) {
+                formData.append('uploadfile', file, file.name);
+                const response = await fetch(
+                    `http://localhost:8080/api/v1/admin/image/${item?.imgIdx}`,
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'X-AUTH-TOKEN': token,
+                        },
+                        body: formData,
+                    }
+                )
+                    .then((res) => res.json())
+                    .catch((err) => console.error(err));
+                if (response.success) return true;
+                else return false;
+            }
+        } else {
+            alert('로그인을 해주세요');
+            location.href = '/login';
         }
-
         return false;
     };
 
     // 상품 정보 수정
     const clickedUpdateMenu = async () => {
-        const response = await fetch(
-            `http://localhost:8080/api/v1/admin/menu/${menuId}`,
-            {
-                method: 'PATCH',
-                // headers: {
-                //     'X-AUTH-TOKEN':
-                //         // 토큰값,
-                // },
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                mode: 'cors',
-                body: JSON.stringify({
-                    menuName: updatedData.menuName,
-                    menuPrice: updatedData.menuPrice,
-                    menuCategory: updatedData.menuCategory,
-                    menuCalory: updatedData.menuCalory,
-                    menuRecommend: updatedData.menuRecommend,
-                }),
+        if (token) {
+            const response = await fetch(
+                `http://localhost:8080/api/v1/admin/menu/${menuId}`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': token,
+                    },
+                    body: JSON.stringify({
+                        menuName: updatedData.menuName,
+                        menuPrice: updatedData.menuPrice,
+                        menuCategory: updatedData.menuCategory,
+                        menuCalory: updatedData.menuCalory,
+                        menuRecommend: updatedData.menuRecommend,
+                    }),
+                }
+            )
+                .then((res) => res.json())
+                .catch((err) => console.error(err));
+            if (response.success) {
+                alert('상품 정보가 수정되었습니다.');
+                navigate(`/admin/menu/${updatedData.menuCategory}`);
             }
-        )
-            .then((res) => res.json())
-            .catch((err) => console.error(err));
-        if (response.success) {
-            alert('상품 정보가 수정되었습니다.');
-            navigate(`/admin/menu/${updatedData.menuCategory}`);
+        } else {
+            alert('로그인을 해주세요.');
+            location.href = '/login';
         }
     };
 
@@ -283,7 +298,7 @@ function AdminUpdateMenu() {
                                     })
                                 }
                                 className='bg-transparent text-base font-medium w-36 focus:outline-none'
-                                value={item?.menuOption}
+                                value={updatedData.menuCategory}
                             >
                                 {categories.map((category) => (
                                     <option

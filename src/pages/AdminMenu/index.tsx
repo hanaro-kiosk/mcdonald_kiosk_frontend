@@ -12,21 +12,24 @@ function AdminMenu() {
 
     // 카테고리 리스트 api
     const getCategoriesData = async () => {
-        const response = await fetch(
-            `http://localhost:8080/api/v1/admin/categories`,
-            {
-                method: 'GET',
-                // headers: {
-                //     'X-AUTH-TOKEN':
-                //         // 토큰값,
-                // },
-                mode: 'cors',
+        const token = localStorage.getItem('token');
+        if (token) {
+            const response = await fetch(
+                `http://localhost:8080/api/v1/admin/categories`,
+                {
+                    headers: {
+                        'X-AUTH-TOKEN': token,
+                    },
+                }
+            )
+                .then((res) => res.json())
+                .catch((err) => console.error(err));
+            if (response.success && !response.data.empty) {
+                setCategories(response.data);
             }
-        )
-            .then((res) => res.json())
-            .catch((err) => console.error(err));
-        if (response.success && !response.data.empty) {
-            setCategories(response.data);
+        } else {
+            alert('로그인을 해주세요');
+            location.href = '/login';
         }
     };
 

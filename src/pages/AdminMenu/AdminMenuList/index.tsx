@@ -31,6 +31,8 @@ function AdminMenuList() {
     const [itemList, setItemList] = useState<AdminItems>();
     const [pageNumber, setPageNumber] = useState<number>(0);
 
+    const token = localStorage.getItem('token');
+
     const pageRendering = () => {
         const result = [];
         if (itemList) {
@@ -51,43 +53,48 @@ function AdminMenuList() {
 
     // 해당 카테고리 메뉴 리스트 api
     const getCategroyMenuData = async () => {
-        const response = await fetch(
-            `http://localhost:8080/api/v1/admin/menu?categoryId=${categoryId}&page=${pageNumber}`,
-            {
-                method: 'GET',
-                // headers: {
-                //     'X-AUTH-TOKEN':
-                //         // 토큰값,
-                // },
-                mode: 'cors',
+        if (token) {
+            const response = await fetch(
+                `http://localhost:8080/api/v1/admin/menu?categoryId=${categoryId}&page=${pageNumber}`,
+                {
+                    headers: {
+                        'X-AUTH-TOKEN': token,
+                    },
+                }
+            )
+                .then((res) => res.json())
+                .catch((err) => console.error(err));
+            if (response.success && !response.data.empty) {
+                setItemList(response.data);
             }
-        )
-            .then((res) => res.json())
-            .catch((err) => console.error(err));
-        if (response.success && !response.data.empty) {
-            setItemList(response.data);
+        } else {
+            alert('로그인을 해주세요');
+            location.href = '/login';
         }
     };
 
     // 해당 메뉴 삭제 api
     const deleteMenu = async (itemIdx: number) => {
-        if (confirm('해당 상품을 삭제하시겠습니까?')) {
-            const response = await fetch(
-                `http://localhost:8080/api/v1/admin/menu/${itemIdx}`,
-                {
-                    method: 'DELETE',
-                    // headers: {
-                    //     'X-AUTH-TOKEN':
-                    //         // 토큰값,
-                    // },
-                    mode: 'cors',
+        if (token) {
+            if (confirm('해당 상품을 삭제하시겠습니까?')) {
+                const response = await fetch(
+                    `http://localhost:8080/api/v1/admin/menu/${itemIdx}`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                            'X-AUTH-TOKEN': token,
+                        },
+                    }
+                )
+                    .then((res) => res.json())
+                    .catch((err) => console.error(err));
+                if (response.success) {
+                    getCategroyMenuData();
                 }
-            )
-                .then((res) => res.json())
-                .catch((err) => console.error(err));
-            if (response.success) {
-                getCategroyMenuData();
             }
+        } else {
+            alert('로그인을 해주세요');
+            location.href = '/login';
         }
     };
 
