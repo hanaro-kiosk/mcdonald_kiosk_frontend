@@ -1,15 +1,20 @@
 import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export interface OrderPaymentProps {
     totalPrice: number;
     totalCount: number;
 }
 
-const OrderPayment: FC<OrderPaymentProps> = ({ totalPrice, totalCount }) => {
+const OrderPayment: FC = () => {
+    const location = useLocation();
+    const orderInfo = { ...location.state };
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         const timeout = setTimeout(() => {
-            // 마지막 페이지로 넘어가는 로직
+            navigate('/orderConfirm');
         }, 3000);
 
         return () => clearTimeout(timeout);
@@ -22,8 +27,11 @@ const OrderPayment: FC<OrderPaymentProps> = ({ totalPrice, totalCount }) => {
             </h1>
 
             <div className='p-2 mx-10 mt-2 text-center bg-white border rounded-lg'>
-                <span>총 수량 : {totalCount}개</span>
-                <span className='text-red-600'> 총 가격 : {totalPrice}원</span>
+                <span>총 수량 : {orderInfo.totalCount}개</span>
+                <span className='text-red-600'>
+                    {' '}
+                    총 가격 : {orderInfo.totalPrice}원
+                </span>
             </div>
             <div className='p-2 mx-10 mt-20 text-center bg-white border rounded-lg'>
                 <p>

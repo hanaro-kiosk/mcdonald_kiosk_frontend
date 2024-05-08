@@ -2,8 +2,9 @@ import OrderMenuItem from './component/OrderMenuItem';
 import Button from '../../components/Button';
 import { useCart } from '../../contexts/cart-context';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext, createContext } from 'react';
 import SideMenuModal from './component/SideMenuModal';
+import { useOrderContext } from '../../contexts/order-context';
 
 export const OrderComfirmation = () => {
     const { cart, totalCount, totalPrice } = useCart();
@@ -11,8 +12,40 @@ export const OrderComfirmation = () => {
 
     const navigate = useNavigate();
 
+    const context = useOrderContext();
+
     const handlePayment = () => {
-        //navigate('');
+        postOrder();
+    };
+
+    const postOrder = async () => {
+        const order = { totalCount: totalCount, totalPrice: totalPrice };
+        const accessToken = sessionStorage.getItem('token');
+
+        const headers: HeadersInit = {
+            'Content-Type': 'application/json',
+        };
+        if (accessToken) {
+            headers['X-AUTH-TOKEN'] = accessToken;
+        }
+
+        await fetch('http://localhost:8080/api/v1/order', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(order),
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.success) {
+                    context?.setData(res.data);
+                    navigate('/payment', {
+                        state: {
+                            totalCount: totalCount,
+                            totalPrice: totalPrice,
+                        },
+                    });
+                }
+            });
     };
 
     return (
@@ -20,8 +53,8 @@ export const OrderComfirmation = () => {
             <h1 className='m-20 text-2xl text-center text-white'>
                 주문을 확인하세요.
             </h1>
-            <div className='h-4/6 px-4 py-4 mx-8 mt-16 bg-white rounded-md'>
-                <div className='flex flex-col items-center justify-center mb-3 h-4/5 overflow-scroll'>
+            <div className='px-4 py-4 mx-8 mt-16 bg-white rounded-md h-4/6'>
+                <div className='flex flex-col items-center justify-center mb-3 overflow-scroll h-4/5'>
                     {cart?.map((order) => (
                         <OrderMenuItem
                             key={order.id}
@@ -32,7 +65,7 @@ export const OrderComfirmation = () => {
                         />
                     ))}
                     {cart.length <= 0 && (
-                        <p className='text-xl font-semibold mt-3'>
+                        <p className='mt-3 text-xl font-semibold'>
                             주문하신 내역이 없습니다.
                         </p>
                     )}
@@ -42,7 +75,7 @@ export const OrderComfirmation = () => {
                     <p>총 수량: {totalCount}</p>
                     <p className='mx-4'>총 가격: {totalPrice}</p>
                 </div>
-                <div className='flex justify-between items-center'>
+                <div className='flex items-center justify-between'>
                     <Button
                         bgColor='bg-gray-400'
                         text='뒤로가기'
@@ -70,7 +103,7 @@ export const OrderComfirmation = () => {
                 </div>
             </div>
             {modalOpen && (
-                <div className='w-full h-full fixed top-0 left-0 flex justify-center items-center bg-neutral-600/50'>
+                <div className='fixed top-0 left-0 flex items-center justify-center w-full h-full bg-neutral-600/50'>
                     <SideMenuModal onClick={() => setModalOpen(false)} />
                 </div>
             )}
