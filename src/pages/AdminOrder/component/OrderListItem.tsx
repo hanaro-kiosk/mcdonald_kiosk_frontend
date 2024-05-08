@@ -27,7 +27,10 @@ export const OrderListItem: FC<OrderListItemProps> = ({
                 {format(order.orderTime, 'yyyy-MM-dd')}
             </td>
             <td className='pr-1.5'>
-                <button className='px-3 py-2 text-sm text-white bg-blue-500 border border-none rounded-lg w-14 hover:bg-blue-700'>
+                <button
+                    className='px-3 py-2 text-sm text-white bg-blue-500 border border-none rounded-lg w-14 hover:bg-blue-700'
+                    onClick={() => onEdit(order.idx)}
+                >
                     수정
                 </button>
             </td>
