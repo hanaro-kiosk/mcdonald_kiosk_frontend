@@ -38,12 +38,7 @@ export const OrderComfirmation = () => {
             .then((res) => {
                 if (res.success) {
                     context?.setData(res.data);
-                    navigate('/payment', {
-                        state: {
-                            totalCount: totalCount,
-                            totalPrice: totalPrice,
-                        },
-                    });
+                    navigate('/payment');
                 }
             });
     };
