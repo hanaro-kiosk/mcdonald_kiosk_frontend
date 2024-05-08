@@ -7,15 +7,13 @@ export interface OrderPaymentProps {
 }
 
 const OrderPayment: FC<OrderPaymentProps> = ({ totalPrice, totalCount }) => {
-    const navigate = useNavigate();
-
     useEffect(() => {
         const timeout = setTimeout(() => {
-            navigate('/OrderWithUserPoint');
+            // 마지막 페이지로 넘어가는 로직
         }, 3000);
 
         return () => clearTimeout(timeout);
-    }, [navigate]);
+    }, []);
 
     return (
         <div>
