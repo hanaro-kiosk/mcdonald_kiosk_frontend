@@ -1,12 +1,12 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { OrderItemProps } from '../AdminOrder';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 
 export const AdminUpdateOrder = () => {
     const navigate = useNavigate();
     const { orderId } = useParams();
-
+    const accessToken = sessionStorage.getItem('token');
     const [editedOrder, setEditedOrder] = useState<OrderItemProps>({
         idx: 0,
         orderCode: '',
@@ -18,40 +18,44 @@ export const AdminUpdateOrder = () => {
     });
 
     const handleEditOrder = async () => {
-        await fetch(`http://localhost:8080/api/v1/admin/order/${orderId}`, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-AUTH-TOKEN':
-                    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcxNTEzNTU4OCwiZXhwIjoxNzE1MjIxOTg4fQ.JOffZ3QSIYd_cEWf6uu9Z_P97gUCekzujH8QRZUbqsU',
-            },
-            body: JSON.stringify({
-                orderCount: editedOrder.orderCount,
-                orderPrice: editedOrder.orderPrice,
-            }),
-        })
-            .then((response) => response.json())
-            .then((res) => {
-                if (res.success) {
-                    navigate('/admin/order');
-                }
-            });
+        if (accessToken) {
+            await fetch(`http://localhost:8080/api/v1/admin/order/${orderId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-AUTH-TOKEN': accessToken,
+                },
+                body: JSON.stringify({
+                    orderCount: editedOrder.orderCount,
+                    orderPrice: editedOrder.orderPrice,
+                }),
+            })
+                .then((response) => response.json())
+                .then((res) => {
+                    if (res.success) {
+                        navigate('/admin/order');
+                    }
+                });
+        }
     };
 
     const getOrder = async () => {
-        await fetch(`http://localhost:8080/api/v1/admin/order/${orderId}`, {
-            headers: {
-                'X-AUTH-TOKEN':
-                    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcxNTEzNTU4OCwiZXhwIjoxNzE1MjIxOTg4fQ.JOffZ3QSIYd_cEWf6uu9Z_P97gUCekzujH8QRZUbqsU',
-            },
-        })
-            .then((response) => response.json())
-            .then((res) => {
-                console.log(res.data);
-                if (res.success) {
-                    setEditedOrder(res.data);
-                }
-            });
+        const accessToken = sessionStorage.getItem('token');
+
+        if (accessToken) {
+            await fetch(`http://localhost:8080/api/v1/admin/order/${orderId}`, {
+                headers: {
+                    'X-AUTH-TOKEN': accessToken,
+                },
+            })
+                .then((response) => response.json())
+                .then((res) => {
+                    console.log(res.data);
+                    if (res.success) {
+                        setEditedOrder(res.data);
+                    }
+                });
+        }
     };
 
     useEffect(() => {

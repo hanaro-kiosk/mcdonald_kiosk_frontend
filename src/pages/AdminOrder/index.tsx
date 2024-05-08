@@ -29,7 +29,7 @@ export const AdminOrder = () => {
     const [totalPage, setTotalPages] = useState(1);
     const [totalElements, setTotalElements] = useState(1);
     const [currentPage, setCurrentPage] = useState(0);
-
+    const accessToken = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
     const handlePageChange = (pageNumber: number) => {
@@ -61,28 +61,31 @@ export const AdminOrder = () => {
 
     useEffect(() => {
         getOrderList();
-    }, [currentPage]);
+    }, [currentPage, orders]);
 
     const handleEditOrder = (id: number) => {
         navigate(`/admin/order/${id}`);
     };
 
     const handleOrderDelete = async (orderIdx: number) => {
-        fetch(`http://localhost:8080/api/v1/admin/order/${orderIdx}`, {
-            method: 'DELETE',
-            headers: {
-                'X-AUTH-TOKEN':
-                    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcxNTEzNTU4OCwiZXhwIjoxNzE1MjIxOTg4fQ.JOffZ3QSIYd_cEWf6uu9Z_P97gUCekzujH8QRZUbqsU',
-            },
-        })
-            .then((res) => res.json())
-            .then((response) => {
-                if (response.success) {
-                    setOrders(orders.filter((order) => orderIdx != order.idx));
-                    alert('삭제되었습니다.');
-                }
+        if (accessToken) {
+            fetch(`http://localhost:8080/api/v1/admin/order/${orderIdx}`, {
+                method: 'DELETE',
+                headers: {
+                    'X-AUTH-TOKEN': accessToken,
+                },
             })
-            .catch((err) => console.error(err));
+                .then((res) => res.json())
+                .then((response) => {
+                    if (response.success) {
+                        setOrders(
+                            orders.filter((order) => orderIdx != order.idx)
+                        );
+                        alert('삭제되었습니다.');
+                    }
+                })
+                .catch((err) => console.error(err));
+        }
     };
 
     return (
