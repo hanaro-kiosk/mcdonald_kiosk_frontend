@@ -26,8 +26,6 @@ function MenuList() {
     const [itemList, setItemList] = useState<Items>();
     const { cart, totalPrice, totalCount, removeAllItem } = useCart();
 
-    console.log('cart>>', cart);
-
     // prev 페이지
     const clickPrevBtn = () => {
         setPageNumber((prevNumber) => prevNumber - 1);
