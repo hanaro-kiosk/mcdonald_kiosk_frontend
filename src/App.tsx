@@ -1,8 +1,18 @@
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Home from './pages/Home';
+import { CartProvider } from './contexts/cart-context';
+import MenuList from './pages/MenuList/index';
+import OrderComfirmation from './pages/OrderComfirmation';
 
 function App() {
-  return <Home />;
+    return (
+        <CartProvider>
+            <Routes>
+                <Route path='/menu' element={<MenuList />} />
+                <Route path='/order' element={<OrderComfirmation />} />
+            </Routes>
+        </CartProvider>
+    );
 }
 
 export default App;
