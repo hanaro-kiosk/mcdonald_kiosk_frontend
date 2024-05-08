@@ -35,11 +35,21 @@ function App() {
                           path=':menu/:categoryId/:menuId'
                           element={<AdminUpdateMenu />}
                       />
+                      <Routes>
+                      <Route path='/admin' element={<AdminOutlet />}>
+                      <Route path=':order' element={<AdminOrder />} />
+                      <Route 
+                          path=':order/:orderId'
+                          element={<AdminUpdateOrder />}
+                      />
+                </Route>
+            </Routes>
                     </Route>
                     <Route path='*' element={<NotFound />} />
                 </Routes>
             </OrderProvider>
         </CartProvider>
+
     );
 }
 
