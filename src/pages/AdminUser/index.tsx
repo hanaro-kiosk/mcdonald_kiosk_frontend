@@ -40,6 +40,10 @@ const AdminUser = () => {
                     },
                 }
             );
+            if (response.status === 403) {
+                alert('관리자만 이용가능합니다.');
+                location.href = '/';
+            }
             if (!response.ok) {
                 throw new Error('Failed to fetch users');
             }
@@ -67,6 +71,10 @@ const AdminUser = () => {
                     },
                 }
             );
+            if (response.status === 403) {
+                alert('관리자만 이용가능합니다.');
+                location.href = '/';
+            }
             if (!response.ok) {
                 throw new Error('Failed to delete user');
             }

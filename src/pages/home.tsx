@@ -1,9 +1,14 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useNavigate } from 'react-router-dom';
 
 function Home() {
     const navigate = useNavigate();
     return (
-        <div className='h-full flex flex-col items-center cursor-pointer'>
+        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+        <div
+            className='h-full flex flex-col items-center cursor-pointer'
+            onClick={() => navigate('/login')}
+        >
             <div className='relative w-full h-5/6 bg-red-600'>
                 <div className='absolute bottom-52 -right-96 overflow-hidden'>
                     <img
@@ -19,10 +24,7 @@ function Home() {
                     </p>
                 </div>
             </div>
-            <button
-                className='h-1/6 w-4/5 flex justify-around items-center'
-                onClick={() => navigate('/login')}
-            >
+            <button className='h-1/6 w-4/5 flex justify-around items-center'>
                 <div className='w-28'>
                     <img
                         src='/assets/Mcdonald_Logo.png'
