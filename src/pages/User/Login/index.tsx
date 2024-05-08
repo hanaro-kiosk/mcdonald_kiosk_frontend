@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 function Login() {
@@ -24,45 +24,20 @@ function Login() {
                 }),
             });
             if (!response.ok) {
-                setErrorMessage('사용자가 존재하지 않습니다.'); // 오류 메시지를 설정합니다.
-                return; // 오류가 발생했으므로 함수를 종료합니다.
+                setErrorMessage('사용자가 존재하지 않습니다.');
+                return;
             }
             const data = await response.json();
-            // 여기서 data에서 userName과 token을 올바르게 추출하여 localStorage에 저장해야 합니다.
-            const { userName, accessToken } = data.data; // 데이터 객체 내부에서 userName과 accessToken을 추출합니다.
-            localStorage.setItem('token', accessToken); // 토큰을 localStorage에 저장합니다.
-            localStorage.setItem('userName', userName); // 사용자 이름을 localStorage에 저장합니다.
+
+            const { userName, accessToken } = data.data;
+            localStorage.setItem('token', accessToken);
+            localStorage.setItem('userName', userName);
             console.log('로그인 성공');
         } catch (error: any) {
             alert('로그인에 실패했습니다');
             console.error(error);
         }
     };
-
-    // const handleGuestLogin = async () => {
-    //     try {
-    //         const response = await fetch(
-    //             'http://localhost:8080/api/v1/guestLogin',
-    //             {
-    //                 method: 'POST',
-    //             }
-    //         );
-    //         if (!response.ok) {
-    //             throw new Error('비회원 로그인에 실패했습니다');
-    //         }
-    //         const data = await response.json();
-    //         // 임시 비회원 계정 정보를 받아옵니다.
-    //         const { guestUserId, guestUserPw } = data.data;
-
-    //         // 받아온 임시 계정 정보로 실제 로그인을 수행합니다.
-    //         setUserId(guestUserId);
-    //         setUserPw(guestUserPw);
-    //         handleLogin(); // 로그인 함수 호출
-    //     } catch (error: any) {
-    //         alert('로그인에 실패했습니다');
-    //         console.error(error);
-    //     }
-    // };
 
     const handleGuestLogin = async () => {
         try {
