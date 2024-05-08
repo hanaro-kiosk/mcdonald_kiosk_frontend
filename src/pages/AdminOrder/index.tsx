@@ -37,26 +37,27 @@ export const AdminOrder = () => {
     };
 
     const getOrderList = async () => {
-        await fetch(
-            `http://localhost:8080/api/v1/admin/order?page=${currentPage}`,
-            {
-                method: 'GET',
-                headers: {
-                    'X-AUTH-TOKEN':
-                        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTcxNTEzNTU4OCwiZXhwIjoxNzE1MjIxOTg4fQ.JOffZ3QSIYd_cEWf6uu9Z_P97gUCekzujH8QRZUbqsU',
-                },
-            }
-        )
-            .then((res) => {
-                return res.json();
-            })
-            .then((response) => {
-                console.log(response.data);
-                setOrders(response.data.content);
-                setTotalPages(response.data.totalPages);
-                setTotalElements(response.data.totalElements);
-            })
-            .catch((err) => console.error(err));
+        if (accessToken) {
+            await fetch(
+                `http://localhost:8080/api/v1/admin/order?page=${currentPage}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'X-AUTH-TOKEN': accessToken,
+                    },
+                }
+            )
+                .then((res) => {
+                    return res.json();
+                })
+                .then((response) => {
+                    console.log(response.data);
+                    setOrders(response.data.content);
+                    setTotalPages(response.data.totalPages);
+                    setTotalElements(response.data.totalElements);
+                })
+                .catch((err) => console.error(err));
+        }
     };
 
     useEffect(() => {

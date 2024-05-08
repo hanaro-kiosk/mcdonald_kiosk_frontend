@@ -40,8 +40,6 @@ export const AdminUpdateOrder = () => {
     };
 
     const getOrder = async () => {
-        const accessToken = sessionStorage.getItem('token');
-
         if (accessToken) {
             await fetch(`http://localhost:8080/api/v1/admin/order/${orderId}`, {
                 headers: {
