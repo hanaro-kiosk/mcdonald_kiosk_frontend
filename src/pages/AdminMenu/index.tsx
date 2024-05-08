@@ -27,10 +27,11 @@ function AdminMenu() {
             if (response.success && !response.data.empty) {
                 setCategories(response.data);
             }
-        } else {
-            alert('로그인을 해주세요');
-            location.href = '/login';
         }
+        // } else {
+        //     alert('로그인을 해주세요');
+        //     location.href = '/login';
+        // }
     };
 
     useEffect(() => {
@@ -38,9 +39,9 @@ function AdminMenu() {
     }, []);
 
     return (
-        <div className='flex flex-col justify-center items-center'>
-            <h2 className='text-3xl font-bold mt-10'>카테고리를 선택하세요</h2>
-            <div className='w-full flex flex-wrap justify-center items-center mt-20'>
+        <div className='flex flex-col items-center justify-center'>
+            <h2 className='mt-10 text-3xl font-bold'>카테고리를 선택하세요</h2>
+            <div className='flex flex-wrap items-center justify-center w-full mt-20'>
                 {categories.map((category) => (
                     <Link
                         to={`/admin/menu/${category.categoryIdx}`}

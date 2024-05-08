@@ -1,8 +1,19 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useOrderContext } from '../../contexts/order-context';
+import { useNavigate } from 'react-router-dom';
 
 export const OrderWithUserPoint: FC = () => {
     const context = useOrderContext();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            navigate('/');
+        }, 5000);
+
+        return () => clearTimeout(timeout);
+    }, []);
+
     return (
         <div className='h-full bg-gray-100 '>
             <div className='flex justify-center pt-20'>
@@ -12,10 +23,8 @@ export const OrderWithUserPoint: FC = () => {
                 />
             </div>
             <p className='text-center'>
-                고객의 주문번호는
-                <span className='font-bold'>
-                    {context?.data?.orderNumber}
-                </span>{' '}
+                고객의 주문번호는{' '}
+                <span className='font-bold'>{context?.data?.orderNumber}</span>{' '}
                 입니다.
             </p>
             <p className='font-bold text-center'>감사합니다.</p>

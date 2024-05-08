@@ -3,11 +3,11 @@ import './App.css';
 import AdminOutlet from './pages/AdminOutlet';
 import AdminMenu from './pages/AdminMenu/index';
 import AdminMenuList from './pages/AdminMenu/AdminMenuList/index';
-import AdminUpdateMenu from './pages/AdmiUpdateMenu/index';
+import AdminUpdateMenu from './pages/AdminMenu/AdminUpdateMenu/index';
 import { CartProvider } from './contexts/cart-context';
 import MenuList from './pages/MenuList/index';
 import OrderComfirmation from './pages/OrderComfirmation';
-import Home from './pages/Home';
+import Home from './pages/home';
 import NotFound from './pages/NotFound';
 import ChoicePlace from './pages/ChoicePlace';
 import { OrderProvider } from './contexts/order-context';
@@ -31,24 +31,21 @@ function App() {
                         element={<OrderWithUserPoint />}
                     />
                     <Route path='/admin' element={<AdminOutlet />}>
-                        <Route path=':menu' element={<AdminMenu />} />
+                        <Route path='menu' element={<AdminMenu />} />
                         <Route
-                            path=':menu/:categoryId'
+                            path='menu/:categoryId'
                             element={<AdminMenuList />}
                         />
                         <Route
-                            path=':menu/:categoryId/:menuId'
+                            path='menu/:categoryId/:menuId'
                             element={<AdminUpdateMenu />}
                         />
-                        <Routes>
-                            <Route path='/admin' element={<AdminOutlet />}>
-                                <Route path=':order' element={<AdminOrder />} />
-                                <Route
-                                    path=':order/:orderId'
-                                    element={<AdminUpdateOrder />}
-                                />
-                            </Route>
-                        </Routes>
+
+                        <Route path='order' element={<AdminOrder />} />
+                        <Route
+                            path='order/:orderId'
+                            element={<AdminUpdateOrder />}
+                        />
                     </Route>
                     <Route path='*' element={<NotFound />} />
                 </Routes>

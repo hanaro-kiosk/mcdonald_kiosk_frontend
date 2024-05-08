@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Pagination from './component/Pagination';
 import { OrderListItem } from './component/OrderListItem';
 import { useNavigate } from 'react-router-dom';
-import { AdminUpdateOrder } from '../AdminUpdateOrder/index';
 
 export interface OrderItemProps {
     idx: number;
