@@ -4,14 +4,14 @@
 
 html,
 body {
-  max-width: 700px;
-  max-height: 100vh;
+    max-width: 700px;
+    max-height: 100vh;
 }
 
 #root {
-  max-width: 700px;
-  max-height: 100vh;
-  background-color: green;
+    max-width: 700px;
+    max-height: 100vh;
+    background-color: rgb(35, 65, 31);
 }
 
 
