@@ -6,7 +6,7 @@ import MenuItem from './components/MenuItem';
 import { BiSolidLeftArrow, BiSolidRightArrow } from 'react-icons/bi';
 import CartItem from './components/CartItem';
 import { useCart } from '../../contexts/cart-context';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export type Item = {
     imgSrc: string;
@@ -27,6 +27,7 @@ function MenuList() {
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [itemList, setItemList] = useState<Items>();
     const { cart, totalPrice, totalCount, removeAllItem } = useCart();
+    const navigate = useNavigate();
 
     // prev 페이지
     const clickPrevBtn = () => {
@@ -135,6 +136,7 @@ function MenuList() {
                                 bgColor='bg-green-900'
                                 textSize='sm'
                                 classes='w-16 hover:bg-green-700'
+                                onClick={() => navigate(-1)}
                             />
                             <p className='text-base'>
                                 <span className='text-red-600 font-semibold'>
