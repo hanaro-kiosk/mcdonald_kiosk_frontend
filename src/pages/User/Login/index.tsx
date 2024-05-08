@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
     const [userId, setUserId] = useState('');
     const [userPw, setUserPw] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
     const handleLogin = async () => {
         if (!userId || !userPw) {
@@ -12,55 +12,29 @@ function Login() {
             return;
         }
 
-        try {
-            const response = await fetch('http://localhost:8080/api/v1/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    userId: userId,
-                    userPw,
-                }),
-            });
-            if (!response.ok) {
-                setErrorMessage('사용자가 존재하지 않습니다.');
-                return;
-            }
-            const data = await response.json();
-
-            const { userName, accessToken } = data.data;
-            localStorage.setItem('token', accessToken);
-            localStorage.setItem('userName', userName);
-            console.log('로그인 성공');
-        } catch (error: any) {
-            alert('로그인에 실패했습니다');
-            console.error(error);
+        const response = await fetch('http://localhost:8080/api/v1/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId,
+                userPw,
+            }),
+        })
+            .then((res) => res.json())
+            .catch((err) => console.error(err));
+        if (!response.success) {
+            alert(response.error.message);
+            return;
         }
-    };
+        const data = await response.json();
 
-    const handleGuestLogin = async () => {
-        try {
-            const response = await fetch(
-                'http://localhost:8080/api/v1/guestLogin',
-                {
-                    method: 'POST',
-                }
-            );
-            if (!response.ok) {
-                throw new Error('비회원 로그인에 실패했습니다');
-            }
-            const data = await response.json();
+        const { userName, accessToken } = data.data;
+        localStorage.setItem('token', accessToken);
+        localStorage.setItem('userName', userName);
 
-            // 비회원 로그인 응답에서 받은 guestId와 guestPassword를 로컬 스토리지에 저장
-            localStorage.setItem('guestId', data.data.guestId);
-            localStorage.setItem('guestPassword', data.data.guestPassword);
-
-            console.log('비회원 로그인 성공');
-        } catch (error: any) {
-            alert('로그인에 실패했습니다');
-            console.error(error);
-        }
+        navigate('/place');
     };
 
     return (
@@ -102,13 +76,12 @@ function Login() {
                         로그인
                     </button>
                     <button
-                        onClick={handleGuestLogin}
+                        onClick={() => navigate('/place')}
                         className='bg-red-600 text-white rounded-md px-4 py-2'
                     >
                         비회원 로그인
                     </button>
                 </div>
-                {errorMessage && <div>{errorMessage}</div>}
                 <div className='text-center'>
                     <p className='text-sm'>
                         *회원가입 하시면 포인트 적립을 받을 수 있습니다.
