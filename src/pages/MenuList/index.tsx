@@ -76,6 +76,7 @@ function MenuList() {
 
     const gotoHome = () => {
         removeAllItem();
+        localStorage.clear();
         navigate('/');
     };
 
@@ -119,13 +120,18 @@ function MenuList() {
                         />
                         <CategoryItem
                             img='/assets/happymeal1.png'
-                            name='해피밀&디저트'
+                            name='해피밀'
                             onClick={() => clickChangeCategory(3)}
+                        />
+                        <CategoryItem
+                            img='/assets/side6.png'
+                            name='디저트&사이드'
+                            onClick={() => clickChangeCategory(4)}
                         />
                         <CategoryItem
                             img='/assets/drink2.png'
                             name='커피&음료'
-                            onClick={() => clickChangeCategory(4)}
+                            onClick={() => clickChangeCategory(5)}
                         />
                     </div>
                 </div>
