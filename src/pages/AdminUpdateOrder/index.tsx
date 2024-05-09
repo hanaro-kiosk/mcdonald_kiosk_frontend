@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { OrderItemProps } from '../AdminOrder';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
+import Button from '../../components/Button';
 
 export const AdminUpdateOrder = () => {
     const navigate = useNavigate();
@@ -69,7 +70,9 @@ export const AdminUpdateOrder = () => {
 
     return (
         <div className='flex flex-col items-center h-full mt-8'>
-            <h2 className='h-12 text-2xl font-semibold'>주문정보 수정</h2>
+            <h2 className='h-12 text-2xl font-semibold text-white'>
+                주문정보 수정
+            </h2>
             <table className='w-4/5 border-2 rounded-md h-3/5 border-slate-700 bg-slate-400'>
                 <tbody>
                     <tr className='border border-slate-700'>
@@ -145,7 +148,7 @@ export const AdminUpdateOrder = () => {
                         </th>
                         <th>
                             <input
-                                className='text-base font-medium bg-transparent w-36 focus:outline-none'
+                                className='font-medium text-center bg-transparent w-36 focus:outline-none'
                                 value={editedOrder?.orderStatus}
                             ></input>
                         </th>
@@ -161,13 +164,22 @@ export const AdminUpdateOrder = () => {
                 </tbody>
             </table>
             <div className='flex justify-between w-1/3 h-10 mt-5'>
-                <button className='bg-red-300' onClick={handleEditOrder}>
-                    수정{' '}
-                </button>
-
-                <button className='bg-blue-300' onClick={() => navigate(-1)}>
-                    취소
-                </button>
+                <Button
+                    bgColor='bg-blue-600'
+                    text='수정하기'
+                    textColor='white'
+                    textSize='base'
+                    classes='w-24 h-full font-semibold ml-1 hover:bg-blue-800'
+                    onClick={handleEditOrder}
+                />
+                <Button
+                    bgColor='bg-red-600'
+                    text='취소'
+                    textColor='white'
+                    textSize='base'
+                    classes='w-24 h-full font-semibold ml-1 hover:bg-red-800'
+                    onClick={() => navigate(-1)}
+                />
             </div>
         </div>
     );

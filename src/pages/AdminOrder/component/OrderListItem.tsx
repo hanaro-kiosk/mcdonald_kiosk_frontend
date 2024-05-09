@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { OrderItemProps, OrderList } from '..';
+import { OrderItemProps } from '..';
 import { format } from 'date-fns';
 
 interface OrderListItemProps {
