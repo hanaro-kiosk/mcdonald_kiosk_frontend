@@ -5,7 +5,6 @@ function Join() {
     const [userId, setUserId] = useState('');
     const [userPw, setUserPw] = useState('');
     const [userName, setUserName] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleJoin = async () => {
@@ -25,12 +24,7 @@ function Join() {
                     userPw: userPw,
                     userName: userName,
                 }),
-                mode: 'cors',
             });
-
-            if (!response.ok) {
-                throw new Error('회원가입에 실패했습니다');
-            }
 
             const responseData = await response.json();
 
@@ -38,13 +32,10 @@ function Join() {
                 throw new Error(responseData.error.message);
             }
 
-            setUserId('');
-            setUserPw('');
-            setUserName('');
             alert('회원가입에 성공하였습니다');
             navigate('/login');
         } catch (error: any) {
-            console.error(error);
+            console.log(error);
             alert(error.message);
         }
     };
