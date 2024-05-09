@@ -46,6 +46,10 @@ export const AdminUserUpdate = () => {
         })
             .then((response) => response.json())
             .then((res) => {
+                if (res.status === 403) {
+                    alert('관리자만 이용가능합니다.');
+                    location.href = '/';
+                }
                 if (res.success) {
                     navigate('/admin/user');
                 }
@@ -62,6 +66,10 @@ export const AdminUserUpdate = () => {
             .then((response) => response.json())
             .then((res) => {
                 console.log(res.data);
+                if (res.status === 403) {
+                    alert('관리자만 이용가능합니다.');
+                    location.href = '/';
+                }
                 if (res.success) {
                     const userData = res.data;
                     userData.userCreateDate = new Date(userData.userCreateDate);

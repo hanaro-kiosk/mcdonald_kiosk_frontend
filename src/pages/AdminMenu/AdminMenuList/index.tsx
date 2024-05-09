@@ -64,12 +64,13 @@ function AdminMenuList() {
             )
                 .then((res) => res.json())
                 .catch((err) => console.error(err));
+            if (response.status === 403) {
+                alert('관리자만 이용가능합니다.');
+                location.href = '/';
+            }
             if (response.success && !response.data.empty) {
                 setItemList(response.data);
             }
-        } else {
-            alert('로그인을 해주세요');
-            location.href = '/login';
         }
     };
 
@@ -88,13 +89,14 @@ function AdminMenuList() {
                 )
                     .then((res) => res.json())
                     .catch((err) => console.error(err));
+                if (response.status === 403) {
+                    alert('관리자만 이용가능합니다.');
+                    location.href = '/';
+                }
                 if (response.success) {
                     getCategroyMenuData();
                 }
             }
-        } else {
-            alert('로그인을 해주세요');
-            location.href = '/login';
         }
     };
 

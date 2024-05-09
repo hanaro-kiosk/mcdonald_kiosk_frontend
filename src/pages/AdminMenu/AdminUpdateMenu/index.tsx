@@ -79,6 +79,10 @@ function AdminUpdateMenu() {
             )
                 .then((res) => res.json())
                 .catch((err) => console.error(err));
+            if (response.status === 403) {
+                alert('관리자만 이용가능합니다.');
+                location.href = '/';
+            }
             if (response.success && !response.data.empty) {
                 setItem(response.data);
                 setUpdatedData((data) => {
@@ -97,9 +101,6 @@ function AdminUpdateMenu() {
                 });
                 setImageFile('/assets/' + response.data.imgSrc);
             }
-        } else {
-            alert('로그인을 해주세요');
-            location.href = '/login';
         }
     };
 
@@ -121,12 +122,13 @@ function AdminUpdateMenu() {
                 )
                     .then((res) => res.json())
                     .catch((err) => console.error(err));
+                if (response.status === 403) {
+                    alert('관리자만 이용가능합니다.');
+                    location.href = '/';
+                }
                 if (response.success) return true;
                 else return false;
             }
-        } else {
-            alert('로그인을 해주세요');
-            location.href = '/login';
         }
         return false;
     };
@@ -153,13 +155,14 @@ function AdminUpdateMenu() {
             )
                 .then((res) => res.json())
                 .catch((err) => console.error(err));
+            if (response.status === 403) {
+                alert('관리자만 이용가능합니다.');
+                location.href = '/';
+            }
             if (response.success) {
                 alert('상품 정보가 수정되었습니다.');
                 navigate(`/admin/menu/${updatedData.menuCategory}`);
             }
-        } else {
-            alert('로그인을 해주세요.');
-            location.href = '/login';
         }
     };
 

@@ -15,7 +15,7 @@ export type Item = {
     menuName: string;
     menuPrice: number;
 };
-  
+
 export type Items = {
     content: Item[];
     first: boolean;
@@ -72,6 +72,11 @@ function MenuList() {
         if (response.success && !response.data.empty) {
             setItemList(response.data);
         }
+    };
+
+    const gotoHome = () => {
+        removeAllItem();
+        navigate('/');
     };
 
     useEffect(() => {
@@ -136,11 +141,11 @@ function MenuList() {
                                 bgColor='bg-green-900'
                                 textSize='sm'
                                 classes='w-16 hover:bg-green-700'
-                                onClick={() => navigate(-1)}
+                                onClick={() => navigate('/place')}
                             />
                             <p className='text-base'>
                                 <span className='text-red-600 font-semibold'>
-                                    홍길동
+                                    {localStorage.getItem('userName')}
                                 </span>
                                 님 안녕하세요
                             </p>
@@ -218,15 +223,15 @@ function MenuList() {
                 </div>
             </div>
             <div className='w-full mt-1 h-10 px-1 flex justify-center items-center'>
-                <Link to='/' className='w-1/2 h-full'>
-                    <Button
-                        bgColor='bg-red-600'
-                        text='주문 취소'
-                        textColor='white'
-                        textSize='base'
-                        classes='w-full h-full font-semibold mr-1 hover:bg-red-700'
-                    />
-                </Link>
+                <Button
+                    bgColor='bg-red-600'
+                    text='주문 취소'
+                    textColor='white'
+                    textSize='base'
+                    classes='w-1/2 h-full font-semibold mr-1 hover:bg-red-700'
+                    onClick={() => gotoHome()}
+                />
+
                 <Link to='/order' className='w-1/2 h-full'>
                     <Button
                         bgColor='bg-green-700'

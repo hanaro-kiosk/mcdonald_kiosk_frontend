@@ -28,7 +28,7 @@ export const AdminOrder = () => {
     const [totalPage, setTotalPages] = useState(1);
     const [totalElements, setTotalElements] = useState(1);
     const [currentPage, setCurrentPage] = useState(0);
-    const accessToken = sessionStorage.getItem('token');
+    const accessToken = localStorage.getItem('token');
     const navigate = useNavigate();
 
     const handlePageChange = (pageNumber: number) => {
@@ -50,6 +50,10 @@ export const AdminOrder = () => {
                     return res.json();
                 })
                 .then((response) => {
+                    if (response.status === 403) {
+                        alert('관리자만 이용가능합니다.');
+                        location.href = '/';
+                    }
                     console.log(response.data);
                     setOrders(response.data.content);
                     setTotalPages(response.data.totalPages);
@@ -77,6 +81,10 @@ export const AdminOrder = () => {
             })
                 .then((res) => res.json())
                 .then((response) => {
+                    if (response.status === 403) {
+                        alert('관리자만 이용가능합니다.');
+                        location.href = '/';
+                    }
                     if (response.success) {
                         setOrders(
                             orders.filter((order) => orderIdx != order.idx)

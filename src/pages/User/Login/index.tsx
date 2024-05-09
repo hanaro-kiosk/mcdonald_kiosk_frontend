@@ -29,6 +29,7 @@ function Login() {
             alert(data.error.message);
             return;
         }
+
         const { userName, accessToken } = data.data;
         localStorage.setItem('token', accessToken);
         localStorage.setItem('userName', userName);

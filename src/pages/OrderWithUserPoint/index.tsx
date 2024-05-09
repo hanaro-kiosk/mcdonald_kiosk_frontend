@@ -1,13 +1,17 @@
 import { FC, useEffect } from 'react';
 import { useOrderContext } from '../../contexts/order-context';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../contexts/cart-context';
 
 export const OrderWithUserPoint: FC = () => {
     const context = useOrderContext();
+    const { removeAllItem } = useCart();
     const navigate = useNavigate();
 
     useEffect(() => {
         const timeout = setTimeout(() => {
+            removeAllItem();
+            localStorage.clear();
             navigate('/');
         }, 5000);
 
