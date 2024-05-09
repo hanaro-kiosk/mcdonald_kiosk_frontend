@@ -64,8 +64,9 @@ export const AdminUserUpdate = () => {
             },
         })
             .then((response) => response.json())
+
             .then((res) => {
-                console.log(res.data);
+                console.log('dd>', res.data);
                 if (res.status === 403) {
                     alert('관리자만 이용가능합니다.');
                     location.href = '/';
@@ -77,6 +78,8 @@ export const AdminUserUpdate = () => {
                 }
             });
     };
+
+    console.log(editedUser);
 
     useEffect(() => {
         getUser();
@@ -130,13 +133,21 @@ export const AdminUserUpdate = () => {
                 </div>
                 <div className='mb-4'>
                     <label className='block font-bold mb-1'>권한</label>
-                    <input
-                        type='text'
+                    <select
                         value={editedUser.userRole}
+                        onChange={(e) =>
+                            setEditedUser({
+                                ...editedUser,
+                                userRole: e.target.value,
+                            })
+                        }
                         className='w-full border border-gray-300 rounded p-2'
-                        readOnly
-                    />
+                    >
+                        <option value='ROLE_USER'>ROLE_USER</option>
+                        <option value='ROLE_ADMIN'>ROLE_ADMIN</option>
+                    </select>
                 </div>
+
                 <div className='mb-4'>
                     <label className='block font-bold mb-1'>가입일</label>
                     <input
