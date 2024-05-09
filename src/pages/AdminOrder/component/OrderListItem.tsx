@@ -4,18 +4,20 @@ import { format } from 'date-fns';
 
 interface OrderListItemProps {
     order: OrderItemProps;
+    idx: number;
     onEdit: (id: number) => void;
     onDelete: (id: number) => void;
 }
 
 export const OrderListItem: FC<OrderListItemProps> = ({
     order,
+    idx,
     onEdit,
     onDelete,
 }) => {
     return (
         <tr key={order.idx} className='bg-gray-200 dark:bg-gray-300'>
-            <td className='px-2 py-1'>{order.idx}</td>
+            <td className='px-2 py-1'>{idx}</td>
 
             <td className='px-2 py-1 font-medium text-gray-900 text-ellipsis'>
                 {order.orderCode}

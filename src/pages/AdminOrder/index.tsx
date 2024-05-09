@@ -28,6 +28,8 @@ export const AdminOrder = () => {
     const [totalPage, setTotalPages] = useState(1);
     const [totalElements, setTotalElements] = useState(1);
     const [currentPage, setCurrentPage] = useState(0);
+    const [pageNumber, setPageNumber] = useState<number>(0);
+    const [pageSize, setPageSize] = useState<number>(0);
     const accessToken = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
@@ -58,6 +60,8 @@ export const AdminOrder = () => {
                     setOrders(response.data.content);
                     setTotalPages(response.data.totalPages);
                     setTotalElements(response.data.totalElements);
+                    setPageNumber(response.data.pageable.pageNumber);
+                    setPageSize(response.data.pageable.pageSize);
                 })
                 .catch((err) => console.error(err));
         }
@@ -118,9 +122,10 @@ export const AdminOrder = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {orders.map((order) => (
+                        {orders.map((order, idx) => (
                             <OrderListItem
                                 key={order.idx}
+                                idx={pageNumber * pageSize + 1 + idx}
                                 order={order}
                                 onEdit={handleEditOrder}
                                 onDelete={handleOrderDelete}
