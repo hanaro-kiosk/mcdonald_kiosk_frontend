@@ -98,7 +98,7 @@ export const AdminOrder = () => {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <h2 className='text-3xl font-bold '> 주문 목록 </h2>
+            <h2 className='mt-4 text-3xl font-bold text-white'> 주문 목록 </h2>
 
             <div className='w-full p-2 mt-2'>
                 <p className='text-base text-gray-300'>
