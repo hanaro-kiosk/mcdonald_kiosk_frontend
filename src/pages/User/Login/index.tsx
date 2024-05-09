@@ -24,11 +24,11 @@ function Login() {
         })
             .then((res) => res.json())
             .catch((err) => console.error(err));
+
         if (!data.success) {
             alert(data.error.message);
             return;
         }
-        // const data = await response.json();
 
         const { userName, accessToken } = data.data;
         localStorage.setItem('token', accessToken);
