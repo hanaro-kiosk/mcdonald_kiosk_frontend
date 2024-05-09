@@ -95,7 +95,7 @@ const AdminUser = () => {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <h2 className='text-3xl font-bold text-white'>회원 목록</h2>
+            <h2 className='text-3xl font-bold text-white mt-5'>회원 목록</h2>
             <div className='w-full p-2 mt-2'>
                 <p className='text-base text-gray-300'>
                     총 {totalElements}명의 회원이 있습니다.
