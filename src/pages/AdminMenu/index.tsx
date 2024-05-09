@@ -40,13 +40,15 @@ function AdminMenu() {
 
     return (
         <div className='flex flex-col items-center justify-center'>
-            <h2 className='mt-10 text-3xl font-bold'>카테고리를 선택하세요</h2>
+            <h2 className='mt-10 text-3xl font-bold text-white'>
+                카테고리를 선택하세요
+            </h2>
             <div className='flex flex-wrap items-center justify-center w-full mt-20'>
                 {categories.map((category) => (
                     <Link
                         to={`/admin/menu/${category.categoryIdx}`}
                         key={category.categoryIdx}
-                        className={`w-48 px-3 py-6 border-4 border-slate-300 rounded-md mx-3 my-5 hover:bg-slate-300`}
+                        className={`w-48 px-3 py-6 border-4 border-slate-300 rounded-md mx-3 my-5 hover:bg-slate-300 text-white hover:text-black`}
                     >
                         <p className='text-2xl font-semibold text-center'>
                             {category.categoryTitle}

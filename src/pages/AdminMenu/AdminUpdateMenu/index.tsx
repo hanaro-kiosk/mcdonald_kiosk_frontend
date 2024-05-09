@@ -183,7 +183,9 @@ function AdminUpdateMenu() {
 
     return (
         <div className='h-full mt-8 flex flex-col items-center'>
-            <h2 className='h-12 text-2xl font-semibold'>상품정보 수정</h2>
+            <h2 className='h-12 text-2xl font-semibold text-white'>
+                상품정보 수정
+            </h2>
             <table className='h-3/5 w-4/5 border-2 border-slate-700 rounded-md bg-slate-400'>
                 <tbody>
                     <tr className='border border-slate-700'>

@@ -87,7 +87,9 @@ export const AdminUserUpdate = () => {
 
     return (
         <div className='flex flex-col items-center mt-8 w-full max-w-md mx-auto'>
-            <h2 className='text-2xl font-semibold mb-4'>회원정보 수정</h2>
+            <h2 className='text-2xl font-semibold mb-4 text-white'>
+                회원정보 수정
+            </h2>
             <div className='w-full bg-gray-200 rounded-lg p-4'>
                 <div className='mb-2'>
                     <label className='block font-bold mb-1'>아이디</label>

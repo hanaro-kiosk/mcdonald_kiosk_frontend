@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Pagination from '../../../components/Pagination';
 
 export type AdminItem = {
     menuIdx: number;
@@ -30,25 +31,12 @@ function AdminMenuList() {
     const navigate = useNavigate();
     const [itemList, setItemList] = useState<AdminItems>();
     const [pageNumber, setPageNumber] = useState<number>(0);
+    const [totalPage, setTotalPages] = useState(1);
 
     const token = sessionStorage.getItem('token');
 
-    const pageRendering = () => {
-        const result = [];
-        if (itemList) {
-            for (let i = 1; i <= itemList?.totalPages; i += 1) {
-                result.push(
-                    <button
-                        key={i}
-                        className={`w-8 text-base font-medium ${pageNumber === i - 1 ? 'text-slate-200' : 'text-stone-900'}`}
-                        onClick={() => setPageNumber(i - 1)}
-                    >
-                        {i}
-                    </button>
-                );
-            }
-        }
-        return result;
+    const handlePageChange = (pageNumber: number) => {
+        setPageNumber(pageNumber);
     };
 
     // 해당 카테고리 메뉴 리스트 api
@@ -70,6 +58,7 @@ function AdminMenuList() {
             }
             if (response.success && !response.data.empty) {
                 setItemList(response.data);
+                setTotalPages(response.data.totalPages);
             }
         }
     };
@@ -106,7 +95,7 @@ function AdminMenuList() {
 
     return (
         <div className='flex flex-col justify-center items-center'>
-            <h2 className='text-3xl font-bold mt-10'>상품 목록</h2>
+            <h2 className='text-3xl font-bold mt-5 text-white'>상품 목록</h2>
 
             <div className='w-full mt-2 p-2'>
                 <p className='text-base text-gray-300'>
@@ -126,10 +115,7 @@ function AdminMenuList() {
                     </thead>
                     <tbody>
                         {itemList?.content.map((item, idx) => (
-                            <tr
-                                key={item.menuIdx}
-                                className='bg-gray-200 dark:bg-gray-800'
-                            >
+                            <tr key={item.menuIdx} className='bg-gray-200'>
                                 <td className='px-5 py-1'>
                                     {itemList.pageable.pageNumber *
                                         itemList.pageable.pageSize +
@@ -173,9 +159,11 @@ function AdminMenuList() {
                         ))}
                     </tbody>
                 </table>
-                <div className='flex justify-center items-center mt-3'>
-                    {pageRendering()}
-                </div>
+                <Pagination
+                    currentPage={pageNumber}
+                    totalPages={totalPage}
+                    onPageChange={handlePageChange}
+                />
             </div>
         </div>
     );
