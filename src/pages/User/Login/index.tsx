@@ -12,7 +12,7 @@ function Login() {
             return;
         }
 
-        const response = await fetch('http://localhost:8080/api/v1/login', {
+        const data = await fetch('http://localhost:8080/api/v1/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,12 +24,10 @@ function Login() {
         })
             .then((res) => res.json())
             .catch((err) => console.error(err));
-        if (!response.success) {
-            alert(response.error.message);
+        if (!data.success) {
+            alert(data.error.message);
             return;
         }
-        const data = await response.json();
-
         const { userName, accessToken } = data.data;
         localStorage.setItem('token', accessToken);
         localStorage.setItem('userName', userName);

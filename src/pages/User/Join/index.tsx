@@ -9,11 +9,12 @@ function Join() {
     const navigate = useNavigate();
 
     const handleJoin = async () => {
-        try {
-            if (!userId || !userPw || !userName) {
-                throw new Error('모든 필드를 입력하세요');
-            }
+        if (!userId || !userPw || !userName) {
+            alert('모든 필드를 입력하세요');
+            return;
+        }
 
+        try {
             const response = await fetch('http://localhost:8080/api/v1/join', {
                 method: 'POST',
                 headers: {
@@ -26,20 +27,25 @@ function Join() {
                 }),
                 mode: 'cors',
             });
+
             if (!response.ok) {
                 throw new Error('회원가입에 실패했습니다');
             }
-            console.log('회원가입 성공');
+
+            const responseData = await response.json();
+
+            if (!responseData.success) {
+                throw new Error(responseData.error.message);
+            }
 
             setUserId('');
             setUserPw('');
             setUserName('');
+            alert('회원가입에 성공하였습니다');
+            navigate('/login');
         } catch (error: any) {
-            setErrorMessage(error.message);
             console.error(error);
-            if (error.message === '모든 필드를 입력하세요') {
-                alert(error.message);
-            }
+            alert(error.message);
         }
     };
 
