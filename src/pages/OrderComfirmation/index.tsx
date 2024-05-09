@@ -49,21 +49,23 @@ export const OrderComfirmation = () => {
                 주문을 확인하세요.
             </h1>
             <div className='px-4 py-4 mx-8 mt-16 bg-white rounded-md h-4/6'>
-                <div className='flex flex-col items-center justify-center mb-3 overflow-scroll h-4/5'>
-                    {cart?.map((order) => (
-                        <OrderMenuItem
-                            key={order.id}
-                            id={order.id}
-                            name={order.menuName}
-                            price={order.menuPrice}
-                            quantity={order.totalCnt}
-                        />
-                    ))}
-                    {cart.length <= 0 && (
-                        <p className='mt-3 text-xl font-semibold'>
-                            주문하신 내역이 없습니다.
-                        </p>
-                    )}
+                <div className='mb-3 h-4/5 overflow-y-scroll'>
+                    <div className='flex flex-col items-center justify-center'>
+                        {cart?.map((order) => (
+                            <OrderMenuItem
+                                key={order.id}
+                                id={order.id}
+                                name={order.menuName}
+                                price={order.menuPrice}
+                                quantity={order.totalCnt}
+                            />
+                        ))}
+                        {cart.length <= 0 && (
+                            <p className='mt-3 text-xl font-semibold'>
+                                주문하신 내역이 없습니다.
+                            </p>
+                        )}
+                    </div>
                 </div>
 
                 <div className='flex justify-end mb-5'>

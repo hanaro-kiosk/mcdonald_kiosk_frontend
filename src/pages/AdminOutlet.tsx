@@ -1,7 +1,16 @@
-import { NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 
 function AdminOutlet() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (location.pathname === '/admin') {
+            navigate('/admin/user');
+        }
+    }, []);
     return (
         <>
             <h1 className='text-5xl font-bold font-mono text-center mt-10 text-white'>

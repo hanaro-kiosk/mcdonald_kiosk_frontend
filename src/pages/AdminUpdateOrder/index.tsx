@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 export const AdminUpdateOrder = () => {
     const navigate = useNavigate();
     const { orderId } = useParams();
-    const accessToken = sessionStorage.getItem('token');
+    const accessToken = localStorage.getItem('token');
     const [editedOrder, setEditedOrder] = useState<OrderItemProps>({
         idx: 0,
         orderCode: '',
@@ -32,6 +32,10 @@ export const AdminUpdateOrder = () => {
             })
                 .then((response) => response.json())
                 .then((res) => {
+                    if (res.status === 403) {
+                        alert('관리자만 이용가능합니다.');
+                        location.href = '/';
+                    }
                     if (res.success) {
                         navigate('/admin/order');
                     }
@@ -48,7 +52,10 @@ export const AdminUpdateOrder = () => {
             })
                 .then((response) => response.json())
                 .then((res) => {
-                    console.log(res.data);
+                    if (res.status === 403) {
+                        alert('관리자만 이용가능합니다.');
+                        location.href = '/';
+                    }
                     if (res.success) {
                         setEditedOrder(res.data);
                     }
