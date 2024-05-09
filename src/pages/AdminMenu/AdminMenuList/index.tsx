@@ -31,7 +31,7 @@ function AdminMenuList() {
     const [itemList, setItemList] = useState<AdminItems>();
     const [pageNumber, setPageNumber] = useState<number>(0);
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     const pageRendering = () => {
         const result = [];

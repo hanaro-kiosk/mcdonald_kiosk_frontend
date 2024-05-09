@@ -76,7 +76,7 @@ function MenuList() {
 
     const gotoHome = () => {
         removeAllItem();
-        localStorage.clear();
+        sessionStorage.clear();
         navigate('/');
     };
 
@@ -151,7 +151,7 @@ function MenuList() {
                             />
                             <p className='text-base'>
                                 <span className='text-red-600 font-semibold'>
-                                    {localStorage.getItem('userName')}
+                                    {sessionStorage.getItem('userName')}
                                 </span>
                                 님 안녕하세요
                             </p>

@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 export const AdminUpdateOrder = () => {
     const navigate = useNavigate();
     const { orderId } = useParams();
-    const accessToken = localStorage.getItem('token');
+    const accessToken = sessionStorage.getItem('token');
     const [editedOrder, setEditedOrder] = useState<OrderItemProps>({
         idx: 0,
         orderCode: '',

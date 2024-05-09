@@ -11,7 +11,7 @@ export const OrderWithUserPoint: FC = () => {
     useEffect(() => {
         const timeout = setTimeout(() => {
             removeAllItem();
-            localStorage.clear();
+            sessionStorage.clear();
             navigate('/');
         }, 5000);
 

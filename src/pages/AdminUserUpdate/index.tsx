@@ -29,7 +29,7 @@ export const AdminUserUpdate = () => {
     });
 
     const handleUserEdit = async () => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         await fetch(`http://localhost:8080/api/v1/admin/user/${userIdx}`, {
             method: 'PATCH',
             headers: {
@@ -57,7 +57,7 @@ export const AdminUserUpdate = () => {
     };
 
     const getUser = async () => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         await fetch(`http://localhost:8080/api/v1/admin/user/${userIdx}`, {
             headers: {
                 'X-AUTH-TOKEN': token || '',
