@@ -151,7 +151,8 @@ function MenuList() {
                             />
                             <p className='text-base'>
                                 <span className='text-red-600 font-semibold'>
-                                    {sessionStorage.getItem('userName')}
+                                    {sessionStorage.getItem('userName') ||
+                                        '비회원'}
                                 </span>
                                 님 안녕하세요
                             </p>
