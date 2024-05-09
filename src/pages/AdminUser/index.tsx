@@ -23,39 +23,39 @@ const AdminUser = () => {
     const [users, setUsers] = useState<UserProps[]>([]);
 
     const navigate = useNavigate();
+    const token = sessionStorage.getItem('token');
 
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
 
     const getUserList = async () => {
-        try {
-            const token = sessionStorage.getItem('token');
-            const response = await fetch(
+        if (token) {
+            await fetch(
                 `http://localhost:8080/api/v1/admin/user?page=${currentPage}`,
                 {
                     method: 'GET',
                     headers: {
-                        'X-AUTH-TOKEN': token || '',
+                        'X-AUTH-TOKEN': token,
                     },
                 }
-            );
-            if (response.status === 403) {
-                alert('관리자만 이용가능합니다.');
-                location.href = '/';
-            }
-            if (!response.ok) {
-                throw new Error('Failed to fetch users');
-            }
-            const data = await response.json();
-            console.log(data);
-            setUsers(data.data.content);
-            setTotalPages(data.data.totalPages);
-            setTotalElements(data.data.totalElements);
-            setPageNumber(data.data.pageable.pageNumber);
-            setPageSize(data.data.pageable.pageSize);
-        } catch (error) {
-            console.error(error);
+            )
+                .then((res) => {
+                    return res.json();
+                })
+                .then((response) => {
+                    if (response.status === 403) {
+                        alert('관리자만 이용가능합니다.');
+                        location.href = '/';
+                    }
+                    console.log(response.data);
+                    setUsers(response.data.content);
+                    setTotalPages(response.data.totalPages);
+                    setTotalElements(response.data.totalElements);
+                    setPageNumber(response.data.pageable.pageNumber);
+                    setPageSize(response.data.pageable.pageSize);
+                })
+                .catch((err) => console.error(err));
         }
     };
 
