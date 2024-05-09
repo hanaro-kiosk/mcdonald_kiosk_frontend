@@ -12,7 +12,7 @@ function AdminMenu() {
 
     // 카테고리 리스트 api
     const getCategoriesData = async () => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (token) {
             const response = await fetch(
                 `http://localhost:8080/api/v1/admin/categories`,

@@ -31,8 +31,8 @@ function Login() {
         }
 
         const { userName, accessToken } = data.data;
-        localStorage.setItem('token', accessToken);
-        localStorage.setItem('userName', userName);
+        sessionStorage.setItem('token', accessToken);
+        sessionStorage.setItem('userName', userName);
 
         navigate('/place');
     };

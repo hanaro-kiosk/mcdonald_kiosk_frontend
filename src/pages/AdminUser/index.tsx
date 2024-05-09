@@ -30,7 +30,7 @@ const AdminUser = () => {
 
     const getUserList = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await fetch(
                 `http://localhost:8080/api/v1/admin/user?page=${currentPage}`,
                 {
@@ -61,7 +61,7 @@ const AdminUser = () => {
 
     const handleUserDelete = async (userIdx: number) => {
         try {
-            const token = localStorage.getItem('token');
+            const token = sessionStorage.getItem('token');
             const response = await fetch(
                 `http://localhost:8080/api/v1/admin/user/${userIdx}`,
                 {

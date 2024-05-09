@@ -42,7 +42,7 @@ function AdminUpdateMenu() {
     const [imageFile, setImageFile] = useState<string>('');
     const [isImageChange, setIsImageChange] = useState<boolean>(false);
 
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
 
     // 날짜 포맷팅
     const formatDate = (date: Date): string => {

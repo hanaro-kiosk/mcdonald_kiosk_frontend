@@ -28,7 +28,7 @@ export const AdminOrder = () => {
     const [totalPage, setTotalPages] = useState(1);
     const [totalElements, setTotalElements] = useState(1);
     const [currentPage, setCurrentPage] = useState(0);
-    const accessToken = localStorage.getItem('token');
+    const accessToken = sessionStorage.getItem('token');
     const navigate = useNavigate();
 
     const handlePageChange = (pageNumber: number) => {
