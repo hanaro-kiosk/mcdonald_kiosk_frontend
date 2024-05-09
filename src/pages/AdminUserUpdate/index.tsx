@@ -86,10 +86,10 @@ export const AdminUserUpdate = () => {
     }, []);
 
     return (
-        <div className='flex flex-col items-center mt-8'>
+        <div className='flex flex-col items-center mt-8 w-full max-w-md mx-auto'>
             <h2 className='text-2xl font-semibold mb-4'>회원정보 수정</h2>
-            <div className='w-3/4 bg-gray-200 rounded-lg p-4'>
-                <div className='mb-4'>
+            <div className='w-full bg-gray-200 rounded-lg p-4'>
+                <div className='mb-2'>
                     <label className='block font-bold mb-1'>아이디</label>
                     <input
                         type='text'
@@ -103,7 +103,7 @@ export const AdminUserUpdate = () => {
                         className='w-full border border-gray-300 rounded p-2'
                     />
                 </div>
-                <div className='mb-4'>
+                <div className='mb-2'>
                     <label className='block font-bold mb-1'>암호</label>
                     <input
                         type='text'
@@ -117,7 +117,7 @@ export const AdminUserUpdate = () => {
                         className='w-full border border-gray-300 rounded p-2'
                     />
                 </div>
-                <div className='mb-4'>
+                <div className='mb-2'>
                     <label className='block font-bold mb-1'>이름</label>
                     <input
                         type='text'
@@ -131,7 +131,7 @@ export const AdminUserUpdate = () => {
                         className='w-full border border-gray-300 rounded p-2'
                     />
                 </div>
-                <div className='mb-4'>
+                <div className='mb-2'>
                     <label className='block font-bold mb-1'>권한</label>
                     <select
                         value={editedUser.userRole}
@@ -147,8 +147,7 @@ export const AdminUserUpdate = () => {
                         <option value='ROLE_ADMIN'>ROLE_ADMIN</option>
                     </select>
                 </div>
-
-                <div className='mb-4'>
+                <div className='mb-2'>
                     <label className='block font-bold mb-1'>가입일</label>
                     <input
                         type='text'
@@ -161,8 +160,7 @@ export const AdminUserUpdate = () => {
                         readOnly
                     />
                 </div>
-
-                <div className='mb-4'>
+                <div className='mb-2'>
                     <label className='block font-bold mb-1'>적립금</label>
                     <input
                         type='number'
